@@ -9,7 +9,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const {usuario, setUsuario} = useContext(AuthContext)
+  const { tokenStorage } = useContext(AuthContext);
 
   function fazerLogin(event) {
     event.preventDefault();
@@ -24,8 +24,8 @@ export default function Login() {
 
     promise.then((res) => {
       console.log(res.data);
-      navigate("/subscriptions")
-      setUsuario(res.data)
+      tokenStorage(res.data.token)
+      navigate("/subscriptions");
     });
     promise.catch((err) => alert("Algo deu errado, tente novamente"));
   }
@@ -50,7 +50,7 @@ export default function Login() {
             placeholder="Senha"
             required
           />
-        
+
           <button type="submit">Entrar</button>
         </form>
       </DivLogin>
@@ -61,7 +61,7 @@ export default function Login() {
   );
 }
 
- export const Corpo = styled.div`
+export const Corpo = styled.div`
   width: 375px;
   height: 667px;
   display: flex;
@@ -81,9 +81,8 @@ export default function Login() {
     line-height: 16px;
     letter-spacing: 0em;
     text-align: left;
-    color: #FFFFFF;
+    color: #ffffff;
     text-decoration-line: underline;
-
   }
 `;
 const DivLogin = styled.div`

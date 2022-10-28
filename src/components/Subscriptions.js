@@ -1,16 +1,19 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../context/AuthContext";
+
 
 export default function Subscriptions() {
   const [info, setInfo] = useState([]);
+  const { token } = useContext(AuthContext);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const config = {
       headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTA0LCJpYXQiOjE2NjY4MDMwMTB9.gk-h6pZ2CG_CibagDZGazlC35d2UYE9UtVGERo9quGs",
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -20,10 +23,11 @@ export default function Subscriptions() {
     );
 
     promise.then((res) => {
+      if(res.data.membership != null) {
+        navigate("/home")
+      } 
       console.log(res.data);
-      setInfo(res.data)
-    
-    
+      setInfo(res.data);
     });
 
     promise.catch((err) => {
@@ -37,10 +41,12 @@ export default function Subscriptions() {
       {info.map((i) => {
         const { id, image, price } = i;
         return (
-          <DivPlanos key={id}>
-            <img src={image} alt="Imagem" />
-            <p>{price}</p>
-          </DivPlanos>
+          <Link key={id} to={`/assinar/${id}`}>
+            <DivPlanos>
+              <img src={image} alt="Imagem" />
+              <p>{price}</p>
+            </DivPlanos>
+          </Link>
         );
       })}
     </Corpo>
@@ -79,9 +85,9 @@ const DivPlanos = styled.div`
   margin-bottom: 10px;
   padding: 0px 16px 0px 16px;
   img {
-    width: 299px;
-    height: 49px;
-    margin-bottom: 100px;
+    width: 139.38px;
+    height: 95.13px;
+    margin-right: 21px;
   }
   p {
     font-family: "Roboto";
