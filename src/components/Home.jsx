@@ -6,8 +6,9 @@ import { AuthContext } from "../context/AuthContext";
 
 export default function Home() {
     const navigate = useNavigate()
-    const { infoAssinatura, user, token } = useContext(AuthContext)
-    const {id, name, image, price, perks} = infoAssinatura
+    const { infoAssinatura, user, token, member } = useContext(AuthContext)
+    //const {id, name, image, price, perks} = infoAssinatura
+    const {id, image, name, perks, price} = member
     console.log(perks, user)
 
     function mudarPlano () {

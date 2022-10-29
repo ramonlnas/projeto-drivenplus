@@ -24,11 +24,9 @@ export default function Subscriptions() {
     promise.then((res) => {
       console.log(res.data);
       setInfo(res.data);
-      // if (res.data.membership === null) {
-      //   navigate("/subscriptions");
-      // } else {
-      //   navigate("/home");
-      // }
+      if (res.data.membership !== null) {
+        navigate("/home");
+      } 
 
     });
 
