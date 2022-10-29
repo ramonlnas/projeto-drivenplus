@@ -1,14 +1,13 @@
 import axios from "axios";
-import { useContext, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Home() {
     const navigate = useNavigate()
-    const { infoAssinatura, user, token, member } = useContext(AuthContext)
-    //const {id, name, image, price, perks} = infoAssinatura
-    const {id, image, name, perks, price} = member
+    const { user, token, member } = useContext(AuthContext)
+    const { image, perks } = member
     console.log(perks, user)
 
     function mudarPlano () {

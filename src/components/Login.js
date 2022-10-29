@@ -9,7 +9,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { tokenStorage, setUser, memberStorage, setMember } = useContext(AuthContext);
+  const { tokenStorage, setUser, memberStorage } = useContext(AuthContext);
 
   function fazerLogin(event) {
     event.preventDefault();
@@ -23,11 +23,24 @@ export default function Login() {
     );
 
     promise.then((res) => {
+      // if (localStorage.getItem("member") !== null) {
+      //   tokenStorage(res.data.token)
+      //   memberStorage(res.data.membership)
+      //   setUser(res.data.name)
+      //   navigate("/home")
+  
+      // }
       console.log(res.data);
       tokenStorage(res.data.token)
       memberStorage(res.data.membership)
       setUser(res.data.name)
       navigate("/subscriptions")
+      if (res.data.membership !== null) {
+        navigate("/home");
+      } else {
+        navigate("/subscriptions")
+      }
+
     });
     promise.catch((err) => alert("Algo deu errado, tente novamente"));
   }
@@ -43,14 +56,14 @@ export default function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="E-mail"
-            required
+            
           />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Senha"
-            required
+            
           />
 
           <button type="submit">Entrar</button>

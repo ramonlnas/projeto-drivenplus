@@ -33,7 +33,6 @@ export const Corpo = styled.div`
     color: #ffffff;
     margin-bottom: 34px;
     font-family: "Roboto";
-
   }
   input {
     font-family: "Roboto";
@@ -134,4 +133,35 @@ export const InputBaixo = styled.div`
     padding: 0px 0px 0 7px;
   }
 `;
+export const ModalConteiner = styled.div`
+  width: 248px;
+  height: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(255,255,255);
+  border-radius: 30px;
+  font-family: "Roboto";
+`;
+export const ModalP = styled.p`
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  color: #000000;
+  margin: 33px 0px 47px 0px
+`;
 
+export const ModalButton = styled.div`
+  width: 248px;
+  display: flex;
+  justify-content: space-evenly;
+
+  button {
+    width: 95px;
+    height: 52px;
+    background: #ff4791;
+    border-radius: 8px;
+    color: #ffffff;
+  }
+`;

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../context/AuthContext";
 
@@ -24,10 +24,6 @@ export default function Subscriptions() {
     promise.then((res) => {
       console.log(res.data);
       setInfo(res.data);
-      if (res.data.membership !== null) {
-        navigate("/home");
-      } 
-
     });
 
     promise.catch((err) => {

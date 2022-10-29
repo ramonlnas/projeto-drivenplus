@@ -14,6 +14,9 @@ import {
   DivFlex,
   InputBaixo,
   InputCima,
+  ModalConteiner,
+  ModalButton,
+  ModalP,
 } from "./style";
 
 const customStyles = {
@@ -27,12 +30,11 @@ const customStyles = {
   },
 };
 
-
-<Modal appElement={document.querySelector('#Assinar')}></Modal>
+<Modal appElement={document.querySelector("#Assinar")}></Modal>;
 
 export default function Assinar() {
   const { idSubs } = useParams();
-  const { token, setInfoAssinatura} = useContext(AuthContext);
+  const { token, setInfoAssinatura } = useContext(AuthContext);
   const [info, setInfo] = useState({});
   const [beneficios, setBeneficios] = useState([]);
   const [nome, setNome] = useState("");
@@ -42,7 +44,6 @@ export default function Assinar() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   let subtitle;
-
 
   function openModal() {
     setIsOpen(true);
@@ -78,7 +79,7 @@ export default function Assinar() {
     promise.then((res) => {
       console.log(res.data);
       setInfoAssinatura(res.data.membership);
-      navigate("/home")
+      navigate("/home");
     });
 
     promise.catch((err) => console.log(err.response));
@@ -97,13 +98,13 @@ export default function Assinar() {
     );
 
     promise.then((res) => {
-      const { id, image, name, perks, price } = res.data;
+      const { perks } = res.data;
       setBeneficios(perks);
       setInfo(res.data);
     });
     promise.catch((err) => {
       console.log(err.response);
-      alert("Algo deu errado, por favor tente novamente.")
+      alert("Algo deu errado, por favor tente novamente.");
     });
   }, [idSubs]);
 
@@ -125,7 +126,7 @@ export default function Assinar() {
             </DivFlex>
             <ul>
               {beneficios.map((i, index) => {
-                const { id, membershipId, title } = i;
+                const { id, title } = i;
                 return <li key={id}>{`${index + 1}. ${title}`}</li>;
               })}
             </ul>
@@ -171,7 +172,9 @@ export default function Assinar() {
                 required
               ></input>
             </InputBaixo>
-            <button type="button" onClick={openModal}>Assinar</button>
+            <button type="button" onClick={openModal}>
+              Assinar
+            </button>
             <Modal
               isOpen={modalIsOpen}
               onAfterOpen={afterOpenModal}
@@ -180,11 +183,20 @@ export default function Assinar() {
               ariaHideApp={false}
               contentLabel="Example Modal"
             >
-              <p>
-                Tem certeza que deseja assinar o plano Driven Plus {info.price}?
-              </p>
-              <button type="button">Não</button>
-              <button onClick={fazerAssinatura} type="submit">Sim</button>
+              <ModalConteiner>
+                <ModalP>
+                  Tem certeza que deseja assinar o plano Driven Plus{" "}
+                  {info.price}?
+                </ModalP>
+                <ModalButton>
+                  <button style={{backgroundColor: "#CECECE" }} onClick={closeModal} type="button">
+                    Não
+                  </button>
+                  <button onClick={fazerAssinatura} type="submit">
+                    Sim
+                  </button>
+                </ModalButton>
+              </ModalConteiner>
             </Modal>
           </form>
         </ConteinerInfo>
