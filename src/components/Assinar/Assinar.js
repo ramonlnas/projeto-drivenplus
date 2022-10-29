@@ -34,7 +34,7 @@ const customStyles = {
 
 export default function Assinar() {
   const { idSubs } = useParams();
-  const { token, setInfoAssinatura } = useContext(AuthContext);
+  const { token, setInfoAssinatura, memberStorage } = useContext(AuthContext);
   const [info, setInfo] = useState({});
   const [beneficios, setBeneficios] = useState([]);
   const [nome, setNome] = useState("");
@@ -55,6 +55,11 @@ export default function Assinar() {
   function closeModal() {
     setIsOpen(false);
   }
+
+  function voltarTela () {
+    navigate("/subscriptions")
+  }
+
 
   function fazerAssinatura(event) {
     event.preventDefault();
@@ -78,7 +83,7 @@ export default function Assinar() {
 
     promise.then((res) => {
       console.log(res.data);
-      setInfoAssinatura(res.data.membership);
+      memberStorage(res.data.membership)
       navigate("/home");
     });
 
@@ -111,7 +116,7 @@ export default function Assinar() {
   return (
     <>
       <Ion>
-        <ion-icon name="arrow-back-outline"></ion-icon>
+        <span onClick={voltarTela}><ion-icon  name="arrow-back-outline"></ion-icon></span>
       </Ion>
       <Corpo>
         <LogoConteiner>
