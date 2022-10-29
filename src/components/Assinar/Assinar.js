@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 import {
@@ -16,28 +16,30 @@ import {
   InputCima,
 } from "./style";
 
-// const customStyles = {
-//   content: {
-//     top: "50%",
-//     left: "50%",
-//     right: "auto",
-//     bottom: "auto",
-//     marginRight: "-50%",
-//     transform: "translate(-50%, -50%)",
-//   },
-// };
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+
+
+<Modal appElement={document.querySelector('#Assinar')}></Modal>
 
 export default function Assinar() {
   const { idSubs } = useParams();
-  const { token } = useContext(AuthContext);
+  const { token, setInfoAssinatura} = useContext(AuthContext);
   const [info, setInfo] = useState({});
   const [beneficios, setBeneficios] = useState([]);
   const [nome, setNome] = useState("");
   const [cartao, setCartao] = useState("");
   const [cvv, setCvv] = useState("");
   const [validade, setValidade] = useState("");
-  const [infoAssinatura, setInfoAssinatura] = useState({});
-  const [isOpen, setIsOpen] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   let subtitle;
 
@@ -46,16 +48,15 @@ export default function Assinar() {
     setIsOpen(true);
   }
 
-  function afterOpen() {
-    subtitle.style.color = "#f00";
+  function afterOpenModal() {
+    //subtitle.style.color = 'red';
   }
-
   function closeModal() {
     setIsOpen(false);
   }
 
   function fazerAssinatura(event) {
-    event.prevendDefault();
+    event.preventDefault();
 
     const config = {
       headers: {
@@ -65,7 +66,7 @@ export default function Assinar() {
     const promise = axios.post(
       "https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions",
       {
-        membershipId: 1,
+        membershipId: idSubs,
         cardName: nome,
         cardNumber: cartao,
         securityNumber: cvv,
@@ -76,7 +77,8 @@ export default function Assinar() {
 
     promise.then((res) => {
       console.log(res.data);
-      setInfoAssinatura(res.data);
+      setInfoAssinatura(res.data.membership);
+      navigate("/home")
     });
 
     promise.catch((err) => console.log(err.response));
@@ -95,13 +97,13 @@ export default function Assinar() {
     );
 
     promise.then((res) => {
-      console.log(res.data);
       const { id, image, name, perks, price } = res.data;
       setBeneficios(perks);
       setInfo(res.data);
     });
     promise.catch((err) => {
       console.log(err.response);
+      alert("Algo deu errado, por favor tente novamente.")
     });
   }, [idSubs]);
 
@@ -122,9 +124,9 @@ export default function Assinar() {
               <h2>Benefícios:</h2>
             </DivFlex>
             <ul>
-              {beneficios.map((i) => {
+              {beneficios.map((i, index) => {
                 const { id, membershipId, title } = i;
-                return <li key={id}>{`${id - 2}. ${title}`}</li>;
+                return <li key={id}>{`${index + 1}. ${title}`}</li>;
               })}
             </ul>
           </DivBeneficios>
@@ -169,20 +171,20 @@ export default function Assinar() {
                 required
               ></input>
             </InputBaixo>
-            <button onClick={openModal}>Assinar</button>
+            <button type="button" onClick={openModal}>Assinar</button>
             <Modal
-              isOpen={openModal}
-              onAfterOpen={afterOpen}
+              isOpen={modalIsOpen}
+              onAfterOpen={afterOpenModal}
               onRequestClose={closeModal}
-              // style={customStyles}
+              style={customStyles}
               ariaHideApp={false}
               contentLabel="Example Modal"
             >
               <p>
-                Tem certeza que deseja assinar o plano Driven Plus (R$ 39,99)?
+                Tem certeza que deseja assinar o plano Driven Plus {info.price}?
               </p>
-              <button>Não</button>
-              <button>Sim</button>
+              <button type="button">Não</button>
+              <button onClick={fazerAssinatura} type="submit">Sim</button>
             </Modal>
           </form>
         </ConteinerInfo>

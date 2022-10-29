@@ -9,7 +9,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { tokenStorage } = useContext(AuthContext);
+  const { tokenStorage, setUser } = useContext(AuthContext);
 
   function fazerLogin(event) {
     event.preventDefault();
@@ -25,7 +25,8 @@ export default function Login() {
     promise.then((res) => {
       console.log(res.data);
       tokenStorage(res.data.token)
-      navigate("/subscriptions");
+      setUser(res.data.name)
+      navigate("/subscriptions")
     });
     promise.catch((err) => alert("Algo deu errado, tente novamente"));
   }

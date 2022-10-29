@@ -4,11 +4,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../context/AuthContext";
 
-
 export default function Subscriptions() {
   const [info, setInfo] = useState([]);
   const { token } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const config = {
@@ -23,11 +22,14 @@ export default function Subscriptions() {
     );
 
     promise.then((res) => {
-      if(res.data.membership != null) {
-        navigate("/home")
-      } 
       console.log(res.data);
       setInfo(res.data);
+      // if (res.data.membership === null) {
+      //   navigate("/subscriptions");
+      // } else {
+      //   navigate("/home");
+      // }
+
     });
 
     promise.catch((err) => {
