@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/Driven_white 1.png";
@@ -9,7 +9,14 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { tokenStorage, setUser, memberStorage } = useContext(AuthContext);
+  const { tokenStorage, memberStorage, nameStorage } = useContext(AuthContext);
+
+
+  useEffect(() => {
+    if (localStorage.getItem("member") !== null) {
+      navigate("/home")
+  }
+  }, [])
 
   function fazerLogin(event) {
     event.preventDefault();
@@ -23,17 +30,10 @@ export default function Login() {
     );
 
     promise.then((res) => {
-      // if (localStorage.getItem("member") !== null) {
-      //   tokenStorage(res.data.token)
-      //   memberStorage(res.data.membership)
-      //   setUser(res.data.name)
-      //   navigate("/home")
-  
-      // }
       console.log(res.data);
       tokenStorage(res.data.token)
       memberStorage(res.data.membership)
-      setUser(res.data.name)
+      nameStorage(res.data.name)
       navigate("/subscriptions")
       if (res.data.membership !== null) {
         navigate("/home");
@@ -44,6 +44,9 @@ export default function Login() {
     });
     promise.catch((err) => alert("Algo deu errado, tente novamente"));
   }
+
+
+  
 
   return (
     <Corpo>

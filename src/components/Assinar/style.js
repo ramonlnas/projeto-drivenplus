@@ -142,6 +142,12 @@ export const ModalConteiner = styled.div`
   background-color: rgb(255,255,255);
   border-radius: 30px;
   font-family: "Roboto";
+
+  ion-icon {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
 `;
 export const ModalP = styled.p`
   font-weight: 700;

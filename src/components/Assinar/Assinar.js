@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-
 import {
   Ion,
   Corpo,
@@ -56,10 +55,9 @@ export default function Assinar() {
     setIsOpen(false);
   }
 
-  function voltarTela () {
-    navigate("/subscriptions")
+  function voltarTela() {
+    navigate("/subscriptions");
   }
-
 
   function fazerAssinatura(event) {
     event.preventDefault();
@@ -83,7 +81,7 @@ export default function Assinar() {
 
     promise.then((res) => {
       console.log(res.data);
-      memberStorage(res.data.membership)
+      memberStorage(res.data.membership);
       navigate("/home");
     });
 
@@ -116,7 +114,9 @@ export default function Assinar() {
   return (
     <>
       <Ion>
-        <span onClick={voltarTela}><ion-icon  name="arrow-back-outline"></ion-icon></span>
+        <span onClick={voltarTela}>
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </span>
       </Ion>
       <Corpo>
         <LogoConteiner>
@@ -194,7 +194,11 @@ export default function Assinar() {
                   {info.price}?
                 </ModalP>
                 <ModalButton>
-                  <button style={{backgroundColor: "#CECECE" }} onClick={closeModal} type="button">
+                  <button
+                    style={{ backgroundColor: "#CECECE" }}
+                    onClick={closeModal}
+                    type="button"
+                  >
                     Não
                   </button>
                   <button onClick={fazerAssinatura} type="submit">

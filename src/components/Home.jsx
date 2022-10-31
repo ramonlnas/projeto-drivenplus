@@ -6,9 +6,9 @@ import { AuthContext } from "../context/AuthContext";
 
 export default function Home() {
     const navigate = useNavigate()
-    const { user, token, member } = useContext(AuthContext)
+    const { name, token, member } = useContext(AuthContext)
     const { image, perks } = member
-    console.log(perks, user)
+    console.log(name)
 
     function mudarPlano () {
       navigate("/subscriptions")
@@ -28,7 +28,6 @@ export default function Home() {
   
       promise.then((res) => {
         navigate("/subscriptions")
-        console.log(res.data);
       });
 
       promise.catch((err) => console.log(err.response))
@@ -45,7 +44,7 @@ export default function Home() {
         <ion-icon name="person-circle-outline"></ion-icon>
       </User>
       <Body>
-        <p>Olá, {user}</p>
+        <p>Olá, {name}</p>
         {perks.map((i) => {
           const {id, link, membershipId, title} = i
           return (

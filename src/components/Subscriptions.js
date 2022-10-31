@@ -92,5 +92,6 @@ const DivPlanos = styled.div`
     font-size: 24px;
     line-height: 28px;
     color: #ffffff;
+    text-decoration: none;
   }
 `;
